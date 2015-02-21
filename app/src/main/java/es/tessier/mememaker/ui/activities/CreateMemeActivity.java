@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import es.tessier.mememaker.database.MemeDatasource;
 import es.tessier.mememaker.models.Meme;
 import es.tessier.mememaker.models.MemeAnnotation;
 import es.tessier.mememaker.ui.views.MemeImageView;
@@ -174,5 +175,8 @@ public class CreateMemeActivity extends Activity {
             MemeAnnotation annotation = mCurrentMeme.getAnnotations().get(i);
             annotation.setTitle(editText.getText().toString());
         }
+        MemeDatasource memeDatasource = new MemeDatasource(this);
+        memeDatasource.create(mCurrentMeme);
+        // OBTENIENDO DATOS (1)
     }
 }

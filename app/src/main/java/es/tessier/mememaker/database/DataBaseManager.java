@@ -12,9 +12,14 @@ public class DataBaseManager {
 
     //MEME table Annotations
 
-    public static final String ANNOTATIONS_TABLE = "ANNOTATIONS";
-    public static final String COLUMN_ANNOTATIONS_NAME = "NAME";
     public static final String COLUMN_ANNOTATIONS_ID = "_ID";
+    public static final String ANNOTATIONS_TABLE = "ANNOTATIONS";
+    public static final String COLUMN_ANNOTATIONS_TITLE = "TITLE";
+    public static final String COLUMN_ANNOTATIONS_X= "X";
+    public static final String COLUMN_ANNOTATIONS_Y= "Y";
     public static final String COLUMN_ANNOTATIONS_FK = "FK_MEME_ID";
+    public static final String COLUMN_ANNOTATIONS_COLOR= "COLOR";
+
+
 
 }
