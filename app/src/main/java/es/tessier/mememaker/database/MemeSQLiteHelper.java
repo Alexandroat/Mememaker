@@ -3,7 +3,7 @@ package es.tessier.mememaker.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+//
 /**
  * Created by Evan Anger on 8/17/14.
  */
