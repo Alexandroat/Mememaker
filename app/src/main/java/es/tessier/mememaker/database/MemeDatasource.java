@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -45,7 +44,7 @@ public class MemeDatasource {
         ContentValues memeValues = new ContentValues();
         memeValues.put(DataBaseManager.COLUMN_MEMES_NAME, meme.getName());
         memeValues.put(DataBaseManager.COLUMN_MEMES_ASSET, meme.getAssetLocation());
-        memeValues.put(DataBaseManager.COLUMN_CREATE_DATE, new Date().getTime());
+        memeValues.put(DataBaseManager.COLUMN_MEMES_CREATE_DATE, new Date().getTime());
         long memeID = db.insert(DataBaseManager.MEMES_TABLE, null, memeValues);
 
         for (MemeAnnotation memeAnnotation : meme.getAnnotations()){
@@ -69,7 +68,7 @@ public class MemeDatasource {
 // Obteniendo Datos
     public ArrayList<Meme> readMemes(){
         SQLiteDatabase db = openReadable();
-        Cursor cursor = db.query(DataBaseManager.MEMES_TABLE,new String [] {DataBaseManager.COLUMN_MEMES_NAME, DataBaseManager.COLUMN_MEMES_ID, DataBaseManager.COLUMN_MEMES_ASSET},null, null, null, null, null);
+        Cursor cursor = db.query(DataBaseManager.MEMES_TABLE,new String [] {DataBaseManager.COLUMN_MEMES_NAME, DataBaseManager.COLUMN_MEMES_ID, DataBaseManager.COLUMN_MEMES_ASSET},null, null, null, null, DataBaseManager.COLUMN_MEMES_CREATE_DATE + " DESC");
         ArrayList <Meme> memes = new ArrayList<Meme>();
         if (cursor.moveToFirst()){
             do{

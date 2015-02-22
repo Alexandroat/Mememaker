@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Evan Anger on 8/17/14.
  */
 public class MemeSQLiteHelper extends SQLiteOpenHelper {
-    private static final String ALTER_ADD_CREATE_DATE= DataBaseManager.COLUMN_CREATE_DATE;
+    private static final String ALTER_ADD_CREATE_DATE= "ALTER TABLE " + DataBaseManager.MEMES_TABLE +
+    " ADD " + DataBaseManager.COLUMN_MEMES_CREATE_DATE + " INTEGER ;";
+
     private static final String DATABASE_NAME = "memes.db";
     private static final int DATABASE_VERSION = 2;
     private static final String TAG = MemeSQLiteHelper.class.getName();
@@ -17,7 +19,8 @@ public class MemeSQLiteHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + DataBaseManager.MEMES_TABLE + " ( " +
                     DataBaseManager.COLUMN_MEMES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     DataBaseManager.COLUMN_MEMES_ASSET + " TEXT NOT NULL," +
-                    DataBaseManager.COLUMN_MEMES_NAME + " TEXT NOT NULL," + DataBaseManager.COLUMN_CREATE_DATE + "INTEGER );";
+                    DataBaseManager.COLUMN_MEMES_NAME + " TEXT NOT NULL," +
+                    DataBaseManager.COLUMN_MEMES_CREATE_DATE + " INTEGER );";
     static final String CREATE_TABLE_ANNOTATIONS =
             "CREATE TABLE " + DataBaseManager.ANNOTATIONS_TABLE + " ( " +
                     DataBaseManager.COLUMN_ANNOTATIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
