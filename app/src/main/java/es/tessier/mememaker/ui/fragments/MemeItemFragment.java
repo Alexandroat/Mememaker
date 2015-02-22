@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import es.tessier.mememaker.adapters.MemeItemListAdapter;
 import es.tessier.mememaker.database.MemeDatasource;
 import es.tessier.mememaker.models.Meme;
@@ -149,6 +151,9 @@ public class MemeItemFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
+
        memeDatasource = new MemeDatasource(getActivity());
+        ArrayList<Meme> memes = memeDatasource.readMemes();
+        setListAdapter(new MemeItemListAdapter(getActivity(), memes));
     }
 }

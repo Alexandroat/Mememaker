@@ -62,9 +62,13 @@ public class MemeDatasource {
         CloseDB(db);
     }
 
-    public void read(){
-
+    public ArrayList<Meme> read() {
+        ArrayList<Meme> memes = readMemes();
+        addMemeAnnotations(memes);
+        return memes;
     }
+
+
 // Obteniendo Datos
     public ArrayList<Meme> readMemes(){
         SQLiteDatabase db = openReadable();
@@ -127,6 +131,8 @@ public class MemeDatasource {
 
             db.close();
         }
-
     }
+
+
+
 }
