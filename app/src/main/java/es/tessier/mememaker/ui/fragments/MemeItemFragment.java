@@ -39,6 +39,7 @@ public class MemeItemFragment extends ListFragment {
     private int mSelectedItem;
     private MemeItemListAdapter mMemeItemListAdapter;
     private MemeDatasource memeDatasource;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +73,11 @@ public class MemeItemFragment extends ListFragment {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         Toast.makeText(MemeItemFragment.this.getActivity(), "Should delete", Toast.LENGTH_LONG).show();
+
+                                        MemeDatasource memeDatasource = new MemeDatasource(MemeItemFragment.this.getActivity());
+                                        memeDatasource.delete(memeId);
+                                        refreshMemes();
+
                                         mMemeItemListAdapter.notifyDataSetChanged();
                                         mMenu.findItem(R.id.share_action).setVisible(true);
                                         mMenu.findItem(R.id.edit_action).setVisible(true);
@@ -101,10 +107,10 @@ public class MemeItemFragment extends ListFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.settings_action) {
+        if (item.getItemId() == R.id.settings_action) {
             Intent intent = new Intent(this.getActivity(), MemeSettingsActivity.class);
             startActivity(intent);
-        } else if(item.getItemId() == R.id.share_action) {
+        } else if (item.getItemId() == R.id.share_action) {
             //need to build the image here.
             Meme meme = (Meme) getListAdapter().getItem(mSelectedItem);
             Bitmap bitmap = createMeme(meme);
@@ -115,7 +121,7 @@ public class MemeItemFragment extends ListFragment {
             shareIntent.putExtra(Intent.EXTRA_STREAM, uriForShare);
             shareIntent.setType("image/jpeg");
             startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.send_to)));
-        } else if(item.getItemId() == R.id.edit_action) {
+        } else if (item.getItemId() == R.id.edit_action) {
             Toast.makeText(this.getActivity(), "Into edit image now", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this.getActivity(), CreateMemeActivity.class);
             Meme meme = (Meme) getListAdapter().getItem(mSelectedItem);
@@ -132,7 +138,7 @@ public class MemeItemFragment extends ListFragment {
         Canvas canvas = new Canvas(workingBitmap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        for(MemeAnnotation annotation : meme.getAnnotations()) {
+        for (MemeAnnotation annotation : meme.getAnnotations()) {
             paint.setColor(Color.parseColor(annotation.getColor()));
             paint.setTextSize(12 * scale);
 
@@ -151,9 +157,15 @@ public class MemeItemFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        refreshMemes();
+    }
 
-       memeDatasource = new MemeDatasource(getActivity());
+
+    private void refreshMemes() {
+        memeDatasource = new MemeDatasource(getActivity());
         ArrayList<Meme> memes = memeDatasource.readMemes();
         setListAdapter(new MemeItemListAdapter(getActivity(), memes));
     }
+
+
 }
