@@ -3,21 +3,21 @@ package es.tessier.mememaker.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+//
 /**
  * Created by Evan Anger on 8/17/14.
  */
 public class MemeSQLiteHelper extends SQLiteOpenHelper {
-
+    private static final String ALTER_ADD_CREATE_DATE= DataBaseManager.COLUMN_CREATE_DATE;
     private static final String DATABASE_NAME = "memes.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String TAG = MemeSQLiteHelper.class.getName();
 
     static final String CREATE_TABLE_MEMES =
             "CREATE TABLE " + DataBaseManager.MEMES_TABLE + " ( " +
                     DataBaseManager.COLUMN_MEMES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     DataBaseManager.COLUMN_MEMES_ASSET + " TEXT NOT NULL," +
-                    DataBaseManager.COLUMN_MEMES_NAME + " TEXT NOT NULL );";
+                    DataBaseManager.COLUMN_MEMES_NAME + " TEXT NOT NULL," + DataBaseManager.COLUMN_CREATE_DATE + "INTEGER );";
     static final String CREATE_TABLE_ANNOTATIONS =
             "CREATE TABLE " + DataBaseManager.ANNOTATIONS_TABLE + " ( " +
                     DataBaseManager.COLUMN_ANNOTATIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -41,6 +41,11 @@ public class MemeSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    switch (oldVersion){
+        case 1: db.execSQL(ALTER_ADD_CREATE_DATE);
+    }
+
+
 
     }
 

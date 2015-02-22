@@ -7,10 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Date;
 
 import es.tessier.mememaker.models.Meme;
 import es.tessier.mememaker.models.MemeAnnotation;
-
+//g
 /**
  * Created by Evan Anger on 8/17/14.
  */
@@ -44,6 +45,7 @@ public class MemeDatasource {
         ContentValues memeValues = new ContentValues();
         memeValues.put(DataBaseManager.COLUMN_MEMES_NAME, meme.getName());
         memeValues.put(DataBaseManager.COLUMN_MEMES_ASSET, meme.getAssetLocation());
+        memeValues.put(DataBaseManager.COLUMN_CREATE_DATE, new Date().getTime());
         long memeID = db.insert(DataBaseManager.MEMES_TABLE, null, memeValues);
 
         for (MemeAnnotation memeAnnotation : meme.getAnnotations()){
