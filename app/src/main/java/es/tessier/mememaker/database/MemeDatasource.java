@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 
 import es.tessier.mememaker.models.Meme;
@@ -60,19 +61,71 @@ public class MemeDatasource {
         CloseDB(db);
     }
 
-    /*public void read(){
+    public void read(){
 
     }
-
-    public void readMemes(){
+// Obteniendo Datos
+    public ArrayList<Meme> readMemes(){
         SQLiteDatabase db = openReadable();
         Cursor cursor = db.query(DataBaseManager.MEMES_TABLE,new String [] {DataBaseManager.COLUMN_MEMES_NAME, DataBaseManager.COLUMN_MEMES_ID, DataBaseManager.COLUMN_MEMES_ASSET},null, null, null, null, null);
         ArrayList <Meme> memes = new ArrayList<Meme>();
         if (cursor.moveToFirst()){
             do{
+                Meme meme = new Meme(getIntFromColumnName(cursor,DataBaseManager.COLUMN_MEMES_ID),
+                        getStringFromColumnName(cursor, DataBaseManager.COLUMN_MEMES_ASSET),
+                        getStringFromColumnName(cursor,DataBaseManager.COLUMN_MEMES_NAME),null);
+                memes.add(meme);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return memes;
+    }
 
-            }while ();
+    private int getIntFromColumnName (Cursor cursor, String columnName){
+        int columnIndex = cursor.getColumnIndex(columnName);
+        return cursor.getInt(columnIndex);
+    }
+
+    private String getStringFromColumnName (Cursor cursor, String columnName){
+        int columnIndex = cursor.getColumnIndex(columnName);
+        return cursor.getString(columnIndex);
+    }
+// Obteniendo Frases
+
+   public void addMemeAnnotations (ArrayList<Meme> memes){
+        SQLiteDatabase db = openReadable();
+        ArrayList<MemeAnnotation> annotations;
+        Cursor cursor;
+        MemeAnnotation annotation;
+
+
+        for (Meme meme : memes) {
+            annotations = new ArrayList<MemeAnnotation>();
+            cursor = db.rawQuery("SELECT * FROM " + DataBaseManager.MEMES_TABLE + " WHERE " + DataBaseManager.COLUMN_ANNOTATIONS_FK +
+                    " = " + meme.getId(), null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    annotation = new MemeAnnotation(getIntFromColumnName(cursor, DataBaseManager.COLUMN_ANNOTATIONS_ID),
+                            getStringFromColumnName(cursor, DataBaseManager.COLUMN_ANNOTATIONS_COLOR),
+                            getStringFromColumnName(cursor, DataBaseManager.COLUMN_ANNOTATIONS_TITLE),
+                            getIntFromColumnName(cursor, DataBaseManager.COLUMN_ANNOTATIONS_Y),
+                            getIntFromColumnName(cursor, DataBaseManager.COLUMN_ANNOTATIONS_X)
+                    );
+
+
+                    annotations.add(annotation);
+
+                } while (cursor.moveToNext());
+
+                meme.setAnnotations(annotations);
+                cursor.close();
+
+            }
+
+            db.close();
         }
 
-    }*/
+    }
 }
